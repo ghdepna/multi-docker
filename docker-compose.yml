@@ -7,6 +7,9 @@ services:
   redis:
     image: 'redis:latest'
   nginx:
+    depends_on:
+      - api
+      - client
     restart: always
     build:
       context: ./nginx
@@ -35,6 +38,8 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+    environment:
+      - WDS_SOCKET_PORT=0
   worker:
     build:
       context: ./worker
@@ -42,3 +47,6 @@ services:
     volumes:
       - /app/node_modules
       - ./worker:/app
+    environment:
+      - "REDIS_HOST=redis"
+      - "REDIS_PORT=6379"
