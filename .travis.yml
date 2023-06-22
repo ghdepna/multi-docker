@@ -22,3 +22,17 @@ after_success:
   - docker push dhdepna/multi-nginx
   - docker push dhdepna/multi-server
   - docker push dhdepna/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: multi-container-app
+  env: Multi-container-app-env
+  bucket_name: elasticbeanstalk-us-east-1-257994307467
+  bucket_path: container-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
+    
